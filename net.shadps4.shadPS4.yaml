@@ -3,6 +3,7 @@ runtime: org.kde.Platform
 runtime-version: '6.8'
 sdk: org.kde.Sdk
 command: shadps4
+desktop-file-name-suffix: ' Nightly'
 
 finish-args:
   # gamepad and 3D hardware support
@@ -37,8 +38,6 @@ add-extensions:
 
 cleanup-commands:
   - mkdir -p ${FLATPAK_DEST}/lib/ffmpeg
-  # Remove XML warning https://github.com/flatpak/flatpak/issues/6057
-  - rm -f ${FLATPAK_DEST}/share/metainfo/releases/net.shadps4.shadPS4.releases.xml
 
 modules:
   - name: rapidjson
@@ -79,14 +78,8 @@ modules:
       # don't include submodules, which shadps4 depends on (in the externals directory)
       - type: git
         url: https://github.com/shadps4-emu/shadPS4
-        tag: v.0.5.0
+        commit: fc50567fc2e5be7f061f22981e6f98082bc9fe27
         x-checker-data:
           type: json
-          url: https://api.github.com/repos/shadps4-emu/shadps4/releases/latest
-          tag-query: .tag_name
-          version-query: .tag_name | sub("^v."; "")
-      # Use updated metainfo.xml with inline releases from main branch https://github.com/flatpak/flatpak/issues/6057
-      - type: file
-        url: https://raw.githubusercontent.com/shadps4-emu/shadPS4/af8c748e9cb3edc78a3f0e189fbba41bfdba0786/dist/net.shadps4.shadPS4.metainfo.xml
-        sha256: "b3c45ef60748c7f791ef932a461b86990b380ca527d92d5474d65e3620297566"
-        dest: dist
+          url: https://api.github.com/repos/shadps4-emu/shadps4/commits/main
+          commit-query: .sha
