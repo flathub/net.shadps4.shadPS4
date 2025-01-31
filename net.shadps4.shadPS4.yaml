@@ -88,6 +88,6 @@ modules:
           version-query: .tag_name | sub("^v."; "")
       # Use updated metainfo.xml with inline releases from main branch https://github.com/flatpak/flatpak/issues/6057
       - type: file
-        url: https://raw.githubusercontent.com/shadps4-emu/shadPS4/af8c748e9cb3edc78a3f0e189fbba41bfdba0786/dist/net.shadps4.shadPS4.metainfo.xml
-        sha256: b3c45ef60748c7f791ef932a461b86990b380ca527d92d5474d65e3620297566
+        url: https://raw.githubusercontent.com/shadps4-emu/shadPS4/f3810cebeacbf85496b2bb153374d5fcfcdfbedf/dist/net.shadps4.shadPS4.metainfo.xml
+        sha256: 3fa2aec72da3d3c59a9848e67b7986a01dbfb881ec1a0e175162be20a6f3a48e
         dest: dist
