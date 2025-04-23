@@ -25,7 +25,7 @@ finish-args:
   - --filesystem=/run/media
 
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.llvm18
+  - org.freedesktop.Sdk.Extension.llvm19
 
 add-extensions:
   org.freedesktop.Platform.ffmpeg-full:
@@ -65,8 +65,8 @@ modules:
     buildsystem: cmake-ninja
     builddir: true
     build-options:
-      append-path: /usr/lib/sdk/llvm18/bin
-      prepend-ld-library-path: /usr/lib/sdk/llvm18/lib
+      append-path: /usr/lib/sdk/llvm19/bin
+      prepend-ld-library-path: /usr/lib/sdk/llvm19/lib
     config-opts:
       - -DENABLE_UPDATER=OFF
       - -DENABLE_QT_GUI=ON
