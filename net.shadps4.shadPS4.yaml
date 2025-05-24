@@ -23,6 +23,8 @@ finish-args:
   - --filesystem=home
   - --filesystem=/media
   - --filesystem=/run/media
+  # Required for Gamescope on Steam Deck
+  - --filesystem=xdg-run/gamescope-0:ro
 
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.llvm19
