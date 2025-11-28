@@ -2,7 +2,7 @@ app-id: net.shadps4.shadPS4
 runtime: org.kde.Platform
 runtime-version: '6.8'
 sdk: org.kde.Sdk
-command: net.shadps4.shadPS4.qtlauncher.sh
+command: net.shadps4.shadPS4.sh
 
 finish-args:
   # gamepad and 3D hardware support
@@ -88,14 +88,6 @@ modules:
           url: https://api.github.com/repos/shadps4-emu/shadps4/releases/latest
           tag-query: .tag_name
           version-query: .tag_name | sub("^v."; "")
-      - type: script
-        dest-filename: net.shadps4.shadPS4.sh
-        commands:
-          - for i in {0..9}; do test -S $XDG_RUNTIME_DIR/discord-ipc-$i || ln -sf
-            {app/com.discordapp.Discord,$XDG_RUNTIME_DIR}/discord-ipc-$i; done
-          - shadps4 "$@"
-    post-install:
-      - install -D -m755 -t /app/bin/ ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.sh
 
   - name: shadps4-qtlauncher
     buildsystem: cmake-ninja
@@ -124,11 +116,14 @@ modules:
       - type: patch
         path: net.shadps4.shadPS4.qtlauncher-hide-version-manager.patch
       - type: script
-        dest-filename: net.shadps4.shadPS4.qtlauncher.sh
+        dest-filename: net.shadps4.shadPS4.sh
         commands:
-          - for i in {0..9}; do test -S $XDG_RUNTIME_DIR/discord-ipc-$i || ln -sf
-            {app/com.discordapp.Discord,$XDG_RUNTIME_DIR}/discord-ipc-$i; done
           - |
+            for i in {0..9}; do
+              if [[ ! -S "${XDG_RUNTIME_DIR}/discord-ipc-$i" ]]; then
+                ln -sf {app/com.discordapp.Discord,$XDG_RUNTIME_DIR}/discord-ipc-$i
+              fi
+            done
             mkdir -p "${XDG_DATA_HOME}/shadPS4QtLauncher/"
             for config_file in versions.json qt_ui.ini; do
               if [[ ! -f ${XDG_DATA_HOME}/shadPS4QtLauncher/${config_file} ]]; then
@@ -136,13 +131,14 @@ modules:
                 cp /app/etc/default/shadps4/${config_file} ${XDG_DATA_HOME}/shadPS4QtLauncher/
               fi
             done
-          - shadPS4QtLauncher "$@"
+            shadPS4QtLauncher "$@"
       - type: file
         path: versions.json
       - type: file
         path: qt_ui.ini
     post-install:
-      - desktop-file-edit --set-key=Exec --set-value=${FLATPAK_ID}.qtlauncher.sh /app/share/applications/${FLATPAK_ID}.desktop
-      - install -m755 -t /app/bin/ ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.qtlauncher.sh
+      - desktop-file-edit --set-key=Exec --set-value=${FLATPAK_ID}.sh /app/share/applications/${FLATPAK_ID}.desktop
+      - desktop-file-edit --set-key=Name --set-value=shadPS4 /app/share/applications/${FLATPAK_ID}.desktop
+      - install -D -m755 -t /app/bin/ ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.sh
       - install -D -m644 -t /app/etc/default/shadps4 ${FLATPAK_BUILDER_BUILDDIR}/versions.json
       - install -D -m644 -t /app/etc/default/shadps4 ${FLATPAK_BUILDER_BUILDDIR}/qt_ui.ini
