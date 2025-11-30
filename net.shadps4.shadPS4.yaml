@@ -65,30 +65,6 @@ modules:
     cleanup:
       - '*'
 
-  - name: shadps4
-    buildsystem: cmake-ninja
-    builddir: true
-    build-options:
-      append-path: /usr/lib/sdk/llvm19/bin
-      prepend-ld-library-path: /usr/lib/sdk/llvm19/lib
-    config-opts:
-      - -DCMAKE_C_COMPILER=clang
-      - -DCMAKE_CXX_COMPILER=clang++
-      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
-      - -DCMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO=ON
-    sources:
-      # We're using a git source here rather than a zipball because zip/tarballs
-      # don't include submodules, which shadps4 depends on (in the externals directory)
-      - type: git
-        url: https://github.com/shadps4-emu/shadPS4.git
-        tag: v.0.12.5
-        commit: 3ce1ac5e86f4ef2c3c1d75fba499cc75c2587f85
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/shadps4-emu/shadps4/releases/latest
-          tag-query: .tag_name
-          version-query: .tag_name | sub("^v."; "")
-
   - name: shadps4-qtlauncher
     buildsystem: cmake-ninja
     builddir: true
@@ -106,8 +82,8 @@ modules:
       # don't include submodules, which shadps4 depends on (in the externals directory)
       - type: git
         url: https://github.com/shadps4-emu/shadps4-qtlauncher.git
-        tag: shadPS4QtLauncher-2025-11-27-ec3e5912c176e609c3ca81d619eb1523c8484c5e
-        commit: ec3e5912c176e609c3ca81d619eb1523c8484c5e
+        tag: shadPS4QtLauncher-2025-11-29-c60eb15271c947726c98a82c0409be47523c9bf4
+        commit: c60eb15271c947726c98a82c0409be47523c9bf4
         x-checker-data:
           type: json
           url: https://api.github.com/repos/shadps4-emu/shadps4-qtlauncher/releases
@@ -142,3 +118,29 @@ modules:
       - install -D -m755 -t /app/bin/ ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.sh
       - install -D -m644 -t /app/etc/default/shadps4 ${FLATPAK_BUILDER_BUILDDIR}/versions.json
       - install -D -m644 -t /app/etc/default/shadps4 ${FLATPAK_BUILDER_BUILDDIR}/qt_ui.ini
+
+  - name: shadps4
+    buildsystem: cmake-ninja
+    builddir: true
+    build-options:
+      append-path: /usr/lib/sdk/llvm19/bin
+      prepend-ld-library-path: /usr/lib/sdk/llvm19/lib
+    config-opts:
+      - -DCMAKE_C_COMPILER=clang
+      - -DCMAKE_CXX_COMPILER=clang++
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DCMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO=ON
+    sources:
+      # We're using a git source here rather than a zipball because zip/tarballs
+      # don't include submodules, which shadps4 depends on (in the externals directory)
+      - type: git
+        url: https://github.com/shadps4-emu/shadPS4.git
+        tag: v.0.12.5
+        commit: 3ce1ac5e86f4ef2c3c1d75fba499cc75c2587f85
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/shadps4-emu/shadps4/releases/latest
+          tag-query: .tag_name
+          version-query: .tag_name | sub("^v."; "")
+    post-install:
+      - install -D -m755 -t /app/share/metainfo/ ${FLATPAK_BUILDER_BUILDDIR}/dist/${FLATPAK_ID}.metainfo.xml
