@@ -113,7 +113,8 @@ modules:
       - type: file
         path: qt_ui.ini
     post-install:
-      - desktop-file-edit --set-key=Exec --set-value=${FLATPAK_ID}.sh /app/share/applications/net.shadps4.shadps4-qtlauncher.desktop
+      - mv /app/share/applications/net.shadps4.shadps4-qtlauncher.desktop /app/share/applications/${FLATPAK_ID}.desktop
+      - desktop-file-edit --set-key=Exec --set-value=${FLATPAK_ID}.sh /app/share/applications/${FLATPAK_ID}.desktop
       - install -D -m755 -t /app/bin/ ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.sh
       - install -D -m644 -t /app/etc/default/shadps4 ${FLATPAK_BUILDER_BUILDDIR}/versions.json
       - install -D -m644 -t /app/etc/default/shadps4 ${FLATPAK_BUILDER_BUILDDIR}/qt_ui.ini
