@@ -33,14 +33,6 @@ finish-args:
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.llvm21
 
-add-extensions:
-  org.freedesktop.Platform.ffmpeg-full:
-    directory: lib/ffmpeg
-    add-ld-path: .
-    version: '25.08'
-    no-autodownload: false
-    autodelete: false
-
 cleanup-commands:
   - mkdir -p ${FLATPAK_DEST}/lib/ffmpeg
 
