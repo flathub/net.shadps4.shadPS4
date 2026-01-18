@@ -33,9 +33,6 @@ finish-args:
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.llvm21
 
-cleanup-commands:
-  - mkdir -p ${FLATPAK_DEST}/lib/ffmpeg
-
 modules:
   - name: rapidjson
     buildsystem: cmake-ninja
