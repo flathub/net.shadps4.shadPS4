@@ -63,6 +63,7 @@ modules:
       prepend-ld-library-path: /usr/lib/sdk/llvm21/lib
     config-opts:
       - -DENABLE_UPDATER=OFF
+      - -DHIDE_VERSION_MANAGER=ON
       - -DCMAKE_C_COMPILER=clang
       - -DCMAKE_CXX_COMPILER=clang++
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
@@ -72,15 +73,17 @@ modules:
       # don't include submodules, which shadps4 depends on (in the externals directory)
       - type: git
         url: https://github.com/shadps4-emu/shadps4-qtlauncher.git
-        tag: shadPS4QtLauncher-2026-03-15-d961f92bda8afe05541690738271ebd53ddd0188
-        commit: d961f92bda8afe05541690738271ebd53ddd0188
+        tag: shadPS4QtLauncher-2026-03-19-0743ad57e4b6c27d056791ac66a6db111908c663
+        commit: 0743ad57e4b6c27d056791ac66a6db111908c663
         x-checker-data:
           type: json
           url: https://api.github.com/repos/shadps4-emu/shadps4-qtlauncher/releases
           tag-query: .[0].tag_name
           version-query: .[0].tag_name | capture(".*(?<v>\\d{4}-\\d{2}-\\d{2})").v
-      - type: patch
-        path: net.shadps4.shadPS4.qtlauncher-hide-version-manager.patch
+      - type: file
+        path: dist/versions.json
+      - type: file
+        path: dist/qt_ui.ini
       - type: script
         dest-filename: net.shadps4.shadPS4.sh
         commands:
@@ -98,10 +101,6 @@ modules:
               fi
             done
             shadPS4QtLauncher "$@"
-      - type: file
-        path: versions.json
-      - type: file
-        path: qt_ui.ini
     post-install:
       - mv /app/share/applications/net.shadps4.shadps4-qtlauncher.desktop /app/share/applications/${FLATPAK_ID}.desktop
       - desktop-file-edit --set-key=Exec --set-value=${FLATPAK_ID}.sh /app/share/applications/${FLATPAK_ID}.desktop
@@ -135,6 +134,6 @@ modules:
       # Add a note to the metainfo about the Flatpak distribution being hardwired
       # to the bundled emulator rather than using the launcher's version manager
       - type: patch
-        path: net.shadps4.shadPS4.flatpak-metainfo.patch
+        path: patches/net.shadps4.shadPS4.flatpak-metainfo.patch
     post-install:
       - install -D -m755 -t /app/share/metainfo/ ${FLATPAK_BUILDER_BUILDDIR}/dist/${FLATPAK_ID}.metainfo.xml
