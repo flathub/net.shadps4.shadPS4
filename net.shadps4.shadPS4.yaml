@@ -79,7 +79,7 @@ modules:
           type: json
           url: https://api.github.com/repos/shadps4-emu/shadps4-qtlauncher/releases
           tag-query: .[0].tag_name
-          version-query: .[0].tag_name | capture(".*(?<v>\\d{4}-\\d{2}-\\d{2})").v
+          version-query: .[0].tag_name | sub("^v"; "")
       - type: patch
         path: patches/net.shadps4.shadps4-qtlauncher.fix-segfault.patch
       - type: file
