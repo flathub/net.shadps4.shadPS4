@@ -1,0 +1,24 @@
+diff --git a/src/qt_gui/game_install_dialog.cpp b/src/qt_gui/game_install_dialog.cpp
+--- a/src/qt_gui/game_install_dialog.cpp	(revision 92bdc40eef82a7a3ee241c35ba961d11a902dd8e)
++++ b/src/qt_gui/game_install_dialog.cpp	(revision de319968a50c1e22a4c32fb069e5a19001a883e0)
+@@ -22,9 +22,7 @@
+ 
+     layout->addWidget(SetupGamesDirectory());
+     layout->addWidget(SetupAddonsDirectory());
+-#ifndef HIDE_VERSION_MANAGER
+     layout->addWidget(SetupVersionDirectory());
+-#endif
+     layout->addStretch();
+     layout->addWidget(SetupDialogActions());
+ 
+@@ -128,6 +126,10 @@
+     connect(browse, &QPushButton::clicked, this, &GameInstallDialog::BrowseVersionDirectory);
+     layout->addWidget(browse);
+ 
++#ifdef HIDE_VERSION_MANAGER
++    group->setHidden(true);
++#endif
++
+     return group;
+ }
+ 
