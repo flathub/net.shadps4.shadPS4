@@ -34,27 +34,6 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.llvm21
 
 modules:
-  - name: rapidjson
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DRAPIDJSON_BUILD_DOC=OFF
-      - -DRAPIDJSON_BUILD_EXAMPLES=OFF
-      - -DRAPIDJSON_BUILD_TESTS=OFF
-      - -DRAPIDJSON_BUILD_THIRDPARTY_GTEST=OFF
-      - -DCMAKE_POLICY_VERSION_MINIMUM=3.5
-    sources:
-      - type: archive
-        url: https://api.github.com/repos/Tencent/rapidjson/zipball/v1.1.0
-        dest-filename: rapidjson.zip
-        sha256: 7fb9f29b86f6842a6f67ebdf6b56b3fc25671b3bca50448e1505f47f37eb19d5
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/tencent/rapidjson/releases/latest
-          version-query: .tag_name
-          url-query: .zipball_url
-    cleanup:
-      - '*'
-
   - name: shadps4-qtlauncher
     buildsystem: cmake-ninja
     builddir: true
@@ -73,15 +52,13 @@ modules:
       # don't include submodules, which shadps4 depends on (in the externals directory)
       - type: git
         url: https://github.com/shadps4-emu/shadps4-qtlauncher.git
-        tag: v224
-        commit: 92bdc40eef82a7a3ee241c35ba961d11a902dd8e
+        tag: shadPS4QtLauncher-2026-06-02-505b050e1cf3c4b10ad32a760e9346184054b6e8
+        commit: 505b050e1cf3c4b10ad32a760e9346184054b6e8
         x-checker-data:
           type: json
-          url: https://api.github.com/repos/shadps4-emu/shadps4-qtlauncher/releases/latest
-          tag-query: .tag_name
-          version-query: .tag_name | sub("^v"; "")
-      - type: patch
-        path: patches/net.shadps4.shadps4-qtlauncher.fix-segfault.patch
+          url: https://api.github.com/repos/shadps4-emu/shadps4-qtlauncher/releases
+          tag-query: .[0].tag_name
+          version-query: .[0].tag_name | sub("^v"; "")
       - type: file
         path: dist/versions.json
       - type: file
