@@ -112,6 +112,9 @@ modules:
       - -DCMAKE_CXX_COMPILER=clang++
       - -DCMAKE_BUILD_TYPE=RelWithDebInfo
       - -DCMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO=ON
+      - -DENABLE_SYSTEM_LIBRARIES=ON
+      - -DSPDLOG_FMT_EXTERNAL=ON
+      - -Dprotobuf_LOCAL_DEPENDENCIES_ONLY=ON
     sources:
       # We're using a git source here rather than a zipball because zip/tarballs
       # don't include submodules, which shadps4 depends on (in the externals directory)
