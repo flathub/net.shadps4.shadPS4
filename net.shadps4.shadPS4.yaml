@@ -52,8 +52,8 @@ modules:
       # don't include submodules, which shadps4 depends on (in the externals directory)
       - type: git
         url: https://github.com/shadps4-emu/shadps4-qtlauncher.git
-        tag: shadPS4QtLauncher-2026-07-02-99e9829e3787031e7eee61935ffd09e8ad8678d1
-        commit: d4b9737196aecad0eebbfe903b1e8b8796bef9bd
+        tag: shadPS4QtLauncher-2026-07-31-ed013e9e3eba9ce245a50d8309aea6cd718f23e8
+        commit: ed013e9e3eba9ce245a50d8309aea6cd718f23e8
         x-checker-data:
           type: json
           url: https://api.github.com/repos/shadps4-emu/shadps4-qtlauncher/releases
@@ -117,8 +117,8 @@ modules:
       # don't include submodules, which shadps4 depends on (in the externals directory)
       - type: git
         url: https://github.com/shadps4-emu/shadPS4.git
-        tag: v.0.16.0
-        commit: 5be3f0a30b4ad4bfd17e76e845b45f86c2e9530f
+        tag: v.0.17.0
+        commit: 5a4373c80e32c7a9d5d6e5a0b7d31d371d194caa
         x-checker-data:
           type: json
           url: https://api.github.com/repos/shadps4-emu/shadps4/releases/latest
