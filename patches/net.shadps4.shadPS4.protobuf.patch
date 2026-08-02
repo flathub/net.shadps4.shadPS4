@@ -1,0 +1,18 @@
+Subject: [PATCH] Allow override of `protobuf_FORCE_FETCH_DEPENDENCIES`
+---
+Index: externals/CMakeLists.txt
+<+>UTF-8
+===================================================================
+diff --git a/externals/CMakeLists.txt b/externals/CMakeLists.txt
+--- a/externals/CMakeLists.txt	(revision 5a4373c80e32c7a9d5d6e5a0b7d31d371d194caa)
++++ b/externals/CMakeLists.txt	(date 1785681840106)
+@@ -389,7 +389,9 @@
+ set(protobuf_INSTALL                  OFF CACHE INTERNAL "")
+ set(protobuf_WITH_ZLIB                OFF CACHE INTERNAL "")
+ set(protobuf_BUILD_SHARED_LIBS        OFF CACHE INTERNAL "")
++if (NOT DEFINED protobuf_FORCE_FETCH_DEPENDENCIES)
+ set(protobuf_FORCE_FETCH_DEPENDENCIES ON  CACHE INTERNAL "")
++endif()
+ if(MSVC)
+ set(protobuf_MSVC_STATIC_RUNTIME OFF CACHE BOOL "" FORCE)
+ endif()
