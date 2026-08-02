@@ -90,16 +90,38 @@ modules:
   # KDE runtime only has fmtlib 11.x. Check if this can be removed with the next runtime update.
   - name: fmtlib
     buildsystem: cmake-ninja
+    builddir: true
+    build-options:
+      append-path: /usr/lib/sdk/llvm21/bin
+      prepend-ld-library-path: /usr/lib/sdk/llvm21/lib
+    config-opts:
+      - -DCMAKE_CXX_COMPILER=clang++
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
     sources:
       - type: archive
-        url: https://github.com/fmtlib/fmt/releases/download/12.2.0/fmt-12.2.0.zip
-        sha256: a2f4a8d51178f954e4c339007f77edd76ba0cb2e36f87a48e5a5403d9be5878f
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/fmtlib/fmt/releases/latest
-          tag-query: .tag_name
-          version-query: .tag_name | sub("^v."; "")
-          url-query: .assets[1].browser_download_url
+        url: https://github.com/fmtlib/fmt/releases/download/12.1.0/fmt-12.1.0.zip
+        sha256: 695fd197fa5aff8fc67b5f2bbc110490a875cdf7a41686ac8512fb480fa8ada7
+    cleanup:
+      - '/include'
+      - '/lib'
+
+  # Build abseil with clang to workaround protobuf linking issue
+  - name: abseil
+    buildsystem: cmake-ninja
+    builddir: true
+    build-options:
+      append-path: /usr/lib/sdk/llvm21/bin
+      prepend-ld-library-path: /usr/lib/sdk/llvm21/lib
+    config-opts:
+      - -DCMAKE_CXX_COMPILER=clang++
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+    sources:
+      - type: archive
+        url: https://github.com/abseil/abseil-cpp/releases/download/20250512.1/abseil-cpp-20250512.1.tar.gz
+        sha256: 9b7a064305e9fd94d124ffa6cc358592eb42b5da588fb4e07d09254aa40086db
+    cleanup:
+      - '/include'
+      - '/lib'
 
   - name: shadps4
     buildsystem: cmake-ninja
@@ -114,6 +136,7 @@ modules:
       - -DCMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO=ON
       - -DENABLE_SYSTEM_LIBRARIES=ON
       - -DSPDLOG_FMT_EXTERNAL=ON
+      - -Dprotobuf_FORCE_FETCH_DEPENDENCIES=OFF
       - -Dprotobuf_LOCAL_DEPENDENCIES_ONLY=ON
     sources:
       # We're using a git source here rather than a zipball because zip/tarballs
@@ -129,5 +152,7 @@ modules:
           version-query: .tag_name | sub("^v."; "")
       - type: file
         path: dist/net.shadps4.shadPS4.metainfo.xml
+      - type: patch
+        path: patches/net.shadps4.shadPS4.protobuf.patch
     post-install:
       - install -D -m755 -t /app/share/metainfo/ ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.metainfo.xml
