@@ -52,8 +52,8 @@ modules:
       # don't include submodules, which shadps4 depends on (in the externals directory)
       - type: git
         url: https://github.com/shadps4-emu/shadps4-qtlauncher.git
-        tag: shadPS4QtLauncher-2026-07-31-ed013e9e3eba9ce245a50d8309aea6cd718f23e8
-        commit: ed013e9e3eba9ce245a50d8309aea6cd718f23e8
+        tag: shadPS4QtLauncher-2026-08-08-a12b988ef35d98f2222a614c05498b27fef87121
+        commit: a12b988ef35d98f2222a614c05498b27fef87121
         x-checker-data:
           type: json
           url: https://api.github.com/repos/shadps4-emu/shadps4-qtlauncher/releases
@@ -102,8 +102,8 @@ modules:
         url: https://github.com/fmtlib/fmt/releases/download/12.1.0/fmt-12.1.0.zip
         sha256: 695fd197fa5aff8fc67b5f2bbc110490a875cdf7a41686ac8512fb480fa8ada7
     cleanup:
-      - '/include'
-      - '/lib'
+      - /include
+      - /lib
 
   # Build abseil with clang to workaround protobuf linking issue
   - name: abseil
@@ -120,8 +120,8 @@ modules:
         url: https://github.com/abseil/abseil-cpp/releases/download/20250512.1/abseil-cpp-20250512.1.tar.gz
         sha256: 9b7a064305e9fd94d124ffa6cc358592eb42b5da588fb4e07d09254aa40086db
     cleanup:
-      - '/include'
-      - '/lib'
+      - /include
+      - /lib
 
   - name: shadps4
     buildsystem: cmake-ninja
