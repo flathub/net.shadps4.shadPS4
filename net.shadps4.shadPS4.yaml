@@ -136,8 +136,6 @@ modules:
       - -DCMAKE_INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO=ON
       - -DENABLE_SYSTEM_LIBRARIES=ON
       - -DSPDLOG_FMT_EXTERNAL=ON
-      - -Dprotobuf_FORCE_FETCH_DEPENDENCIES=OFF
-      - -Dprotobuf_LOCAL_DEPENDENCIES_ONLY=ON
     sources:
       # We're using a git source here rather than a zipball because zip/tarballs
       # don't include submodules, which shadps4 depends on (in the externals directory)
@@ -152,7 +150,5 @@ modules:
           version-query: .tag_name | sub("^v."; "")
       - type: file
         path: dist/net.shadps4.shadPS4.metainfo.xml
-      - type: patch
-        path: patches/net.shadps4.shadPS4.protobuf.patch
     post-install:
       - install -D -m755 -t /app/share/metainfo/ ${FLATPAK_BUILDER_BUILDDIR}/${FLATPAK_ID}.metainfo.xml
